@@ -47,12 +47,12 @@ export default function FileUploader({ onFileSelect, uploadedFile }: FileUploade
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 h-full flex flex-col">
       <h3 className="text-lg font-semibold mb-4 text-card-foreground">Upload Image</h3>
       
       <div
         className={`
-          border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200
+          border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 flex-1 flex items-center justify-center
           ${isDragOver ? 'border-primary bg-primary/10' : 'border-muted'}
           ${uploadedFile ? 'bg-muted/20' : 'hover:border-primary/50 hover:bg-primary/5'}
         `}

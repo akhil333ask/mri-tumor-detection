@@ -65,7 +65,7 @@ export default function MRIAnalyzer() {
             <h1 className="text-xl font-semibold text-card-foreground">MRI Tumor Detection</h1>
           </div>
           <div className="text-sm text-muted-foreground">
-            Neural Network v2.1
+            YOLOv8 + DenseNet121
           </div>
         </div>
       </header>
@@ -73,11 +73,13 @@ export default function MRIAnalyzer() {
       {/* Main Content */}
       <div className="flex h-[calc(100vh-73px)]">
         {/* Left Sidebar */}
-        <div className="w-80 border-r border-border bg-card p-4">
-          <FileUploader 
-            onFileSelect={handleFileSelect}
-            uploadedFile={uploadedFile}
-          />
+        <div className="w-80 border-r border-border bg-card p-4 flex flex-col">
+          <div className="flex-1">
+            <FileUploader 
+              onFileSelect={handleFileSelect}
+              uploadedFile={uploadedFile}
+            />
+          </div>
         </div>
 
         {/* Center - Image Viewer */}
