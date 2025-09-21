@@ -33,6 +33,8 @@ export default function ImageViewer({
       const url = URL.createObjectURL(imageFile);
       setImageUrl(url);
       return () => URL.revokeObjectURL(url);
+    } else {
+      setImageUrl(null);
     }
   }, [imageFile]);
 

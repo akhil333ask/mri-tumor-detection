@@ -73,7 +73,7 @@ export default function MRIAnalyzer() {
       {/* Main Content */}
       <div className="flex h-[calc(100vh-73px)]">
         {/* Left Sidebar */}
-        <div className="w-80 border-r border-border bg-card p-4 space-y-4">
+        <div className="w-80 border-r border-border bg-card p-4">
           <FileUploader 
             onFileSelect={handleFileSelect}
             uploadedFile={uploadedFile}

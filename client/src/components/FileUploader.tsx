@@ -64,7 +64,9 @@ export default function FileUploader({ onFileSelect, uploadedFile }: FileUploade
         {uploadedFile ? (
           <div className="space-y-2">
             <File className="w-8 h-8 mx-auto text-primary" />
-            <p className="text-sm font-medium text-card-foreground">{uploadedFile.name}</p>
+            <p className="text-sm font-medium text-card-foreground truncate px-2" title={uploadedFile.name}>
+              {uploadedFile.name}
+            </p>
             <p className="text-xs text-muted-foreground">
               {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
             </p>
