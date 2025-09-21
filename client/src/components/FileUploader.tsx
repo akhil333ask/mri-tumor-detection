@@ -62,11 +62,13 @@ export default function FileUploader({ onFileSelect, uploadedFile }: FileUploade
         data-testid="drop-zone"
       >
         {uploadedFile ? (
-          <div className="space-y-2">
+          <div className="space-y-2 max-w-full">
             <File className="w-8 h-8 mx-auto text-primary" />
-            <p className="text-sm font-medium text-card-foreground truncate px-2" title={uploadedFile.name}>
-              {uploadedFile.name}
-            </p>
+            <div className="px-4">
+              <p className="text-sm font-medium text-card-foreground break-all text-center" title={uploadedFile.name}>
+                {uploadedFile.name}
+              </p>
+            </div>
             <p className="text-xs text-muted-foreground">
               {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
             </p>
