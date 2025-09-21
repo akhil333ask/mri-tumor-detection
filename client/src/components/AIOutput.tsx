@@ -22,13 +22,14 @@ export default function AIOutput({ isAnalyzing, results }: AIOutputProps) {
       setIsTyping(true);
       
       const processingMessages = [
-        'Initializing AI model...',
+        'Initializing YOLOv8 + DenseNet121 model...',
         'Loading neural network weights...',
-        'Preprocessing image data...',
+        'Preprocessing MRI image data...',
         'Performing segmentation analysis...',
-        'Running classification algorithms...',
+        'Running tumor classification algorithms...',
         'Computing confidence scores...',
-        'Generating report...'
+        'Analyzing detection patterns...',
+        'Generating medical report...'
       ];
 
       let messageIndex = 0;
@@ -79,9 +80,8 @@ CLINICAL RECOMMENDATIONS:
 ${results.recommendations.map(rec => `• ${rec}`).join('\n')}
 
 TECHNICAL DETAILS:
-• Segmentation algorithm: Deep CNN v2.1
+• Segmentation algorithm: YOLOv8 + DenseNet121
 • Classification model: EfficientNet-B7
-• Processing time: 2.3 seconds
 • Image resolution: 512x512 pixels
 
 Note: This analysis is for research purposes only and should not be used for clinical diagnosis without physician review.`;

@@ -3,6 +3,7 @@ import FileUploader from '@/components/FileUploader';
 import ImageViewer from '@/components/ImageViewer';
 import ConfidenceControls from '@/components/ConfidenceControls';
 import AIOutput from '@/components/AIOutput';
+import { useToast } from '@/hooks/use-toast';
 
 export default function MRIAnalyzer() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -17,40 +18,73 @@ export default function MRIAnalyzer() {
     recommendations: string[];
   } | null>(null);
 
+  const { toast } = useToast();
+
   const handleFileSelect = (file: File) => {
     setUploadedFile(file);
     setAnalysisResults(null);
+    setIsScanning(false);
+    setIsAnalyzing(false);
     
     // Auto-start scanning after file upload
     setTimeout(() => {
       setIsScanning(true);
       setIsAnalyzing(true);
+      performAnalysis(file);
     }, 500);
+  };
+
+  const performAnalysis = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('segmentationThreshold', segmentationThreshold.toString());
+      formData.append('classificationThreshold', classificationThreshold.toString());
+
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Analysis failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      
+      setAnalysisResults({
+        detections: result.detections,
+        primaryFindings: result.primaryFindings,
+        confidence: result.confidence,
+        recommendations: result.recommendations
+      });
+
+      toast({
+        title: "Analysis Complete",
+        description: `${result.detections} object(s) detected with ${result.confidence}% confidence`,
+      });
+
+    } catch (error) {
+      console.error('Analysis error:', error);
+      setAnalysisResults({
+        detections: 0,
+        primaryFindings: ['Analysis failed - please try again'],
+        confidence: 0,
+        recommendations: ['Check file format and try again', 'Contact support if issue persists']
+      });
+      
+      toast({
+        title: "Analysis Failed",
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const handleScanComplete = () => {
     setIsScanning(false);
-    
-    // Simulate analysis completion
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      setAnalysisResults({
-        detections: 1,
-        primaryFindings: [
-          'Glioma detected in frontal lobe region',
-          'Tumor mass approximately 2.3cm in diameter',
-          'High signal intensity on T2-weighted images',
-          'No evidence of hemorrhage or necrosis'
-        ],
-        confidence: 82,
-        recommendations: [
-          'Recommend follow-up MRI in 3 months',
-          'Consider consultation with neurosurgery',
-          'Additional contrast-enhanced imaging may be beneficial',
-          'Correlate with clinical symptoms and history'
-        ]
-      });
-    }, 2000);
   };
 
   return (
